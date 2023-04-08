@@ -1,0 +1,5 @@
+# google:
+#   service: GCS
+#   credentials: <%= Rails.root.join("path/to/keyfile.json") %>
+#   project: ""
+#   bucket: ""
