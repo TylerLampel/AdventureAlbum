@@ -18,6 +18,13 @@ function Navbar() {
     return (
       <div>
         <h3>Hello {user.username}</h3>
+        <NavLink to="/">
+          <button>Home</button>
+        </NavLink>
+        <NavLink to="/vacations">
+          <button>My Vacations</button>
+        </NavLink>
+        <br />
         <button onClick={logoutUser}>Logout</button>
       </div>
     );
