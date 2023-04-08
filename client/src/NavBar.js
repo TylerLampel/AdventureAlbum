@@ -18,7 +18,7 @@ function Navbar() {
     return (
       <div>
         <h3>Hello {user.username}</h3>
-        <button>Logout</button>
+        <button onClick={logoutUser}>Logout</button>
       </div>
     );
   } else {
