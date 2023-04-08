@@ -10,6 +10,7 @@ import Navbar from "./NavBar";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import MyVacations from "./MyVacations";
+import AddVacationForm from "./AddVacationForm";
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/not-found" element={<NotFound />} />
         <Route path="/vacations" element={<MyVacations />} />
+        <Route path="/add-vacation" element={<AddVacationForm />} />
       </Routes>
     </UserProvider>
   );

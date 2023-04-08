@@ -24,8 +24,12 @@ function Navbar() {
         <NavLink to="/vacations">
           <button>My Vacations</button>
         </NavLink>
+        <NavLink to="/add-vacation">
+          <button>Add A Vaction</button>
+        </NavLink>
         <br />
         <button onClick={logoutUser}>Logout</button>
+        <br />
       </div>
     );
   } else {
