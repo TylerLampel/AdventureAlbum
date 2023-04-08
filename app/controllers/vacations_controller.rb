@@ -1,6 +1,7 @@
 class VacationsController < ApplicationController
+    skip_before_action :authorize
     def index
-        vacations = @current_user.vacations
+        vacations = current_user.vacations
         render json: vacations, status: :ok
     end
     
@@ -30,5 +31,9 @@ class VacationsController < ApplicationController
 
     def vacation_params
         params.require(:vacation).permit(:title, :departure_date, :return_date , uploads: [])
+    end
+
+    def render_not_found_response
+        return render json: { error: "Vacation not found"}, status: :not_found
     end
 end
