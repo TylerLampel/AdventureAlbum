@@ -23,6 +23,8 @@ gem 'bcrypt', '~> 3.1.16'
 
  # gem "google-cloud-storage", "~> 1.11", require: false
 
+ gem 'active_model_serializers'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -34,3 +36,5 @@ group :development do
   # gem "spring"
 end
 
+
+gem "jsonapi-serializer", "~> 2.2"

@@ -1,17 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function MyVacations({ vacations }) {
   const renderedVacations = vacations.map((vacation) => {
     return (
-      <div key={vacation.id}>
-        <h3>{vacation.title}</h3>
-      </div>
+      <li key={vacation.id}>
+        <Link to={`/vacations/${vacation.id}`}>{vacation.title}</Link>
+      </li>
     );
   });
+
   return (
     <div>
       <h2>My Vacations</h2>
-      {renderedVacations}
+      <ul>{renderedVacations}</ul>
     </div>
   );
 }

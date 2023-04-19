@@ -12,6 +12,7 @@ import Header from "./Header";
 import NotFound from "./NotFound";
 import MyVacations from "./MyVacations";
 import AddVacationForm from "./AddVacationForm";
+import VacationCard from "./VacationCard";
 
 function App() {
   const [vacations, setVacations] = useState([]);
@@ -21,7 +22,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setVacations(data);
-        console.log(data);
+        console.log("vacations", data);
       });
   }, []);
 
@@ -38,6 +39,14 @@ function App() {
           path="/vacations"
           element={<MyVacations vacations={vacations} />}
         />
+        {vacations.map((vacation) => (
+          <Route
+            key={vacation.id}
+            path={`/vacations/${vacation.id}`}
+            element={<VacationCard vacation={vacation} />}
+          />
+        ))}
+
         <Route path="/add-vacation" element={<AddVacationForm />} />
       </Routes>
     </UserProvider>
