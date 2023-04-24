@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
-import UploadImageForm from "./UploadImageForm";
-import PhotoCard from "./PhotoCard";
+import { useParams } from "react-router-dom";
+import AdventureList from "./AdventureList";
 
-function VacationCard({ vacation }) {
-  const { departure_date, return_date, title, id } = vacation;
-  const renderedImages = vacation.photos.map((photo) => (
-    <PhotoCard photo={photo} />
-  ));
+function VacationCard() {
+  const { id } = useParams();
+  const [vacation, setVacation] = useState(null);
 
-  function submitImageToAPI(data) {
-    fetch(`/vacations/${id}/photos`, {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+  useEffect(() => {
+    fetch(`/vacations/${id}`)
+      .then((response) => response.json())
+      .then((data) => setVacation(data));
+  }, [id]);
+
+  if (!vacation) {
+    return <div>Loading...</div>;
   }
+
   return (
     <div>
-      <h3>{title}</h3>
-      <p>{departure_date}</p>
-      <p>{return_date}</p>
-      <UploadImageForm id={vacation.id} submitImageToAPI={submitImageToAPI} />
-      {renderedImages}
+      <h3>{vacation.title}</h3>
+      <p>Departure Date: {vacation.departure_date}</p>
+      <p>Return Date: {vacation.return_date}</p>
+      <br />
+      <AdventureList adventures={vacation.adventures} />
     </div>
   );
 }

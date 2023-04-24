@@ -1,5 +1,10 @@
-# google:
-#   service: GCS
-#   credentials: <%= Rails.root.join("path/to/keyfile.json") %>
-#   project: ""
-#   bucket: ""
+google:
+  service: GCS
+  project: adventure-album
+  credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'].as_json %>
+  bucket: adventure-album
+google_dev:
+  service: GCS
+  project: adventure-album
+  credentials: <%= Rails.root.join("config/secrets/adventure-album.json") %>
+  bucket: adventure-album

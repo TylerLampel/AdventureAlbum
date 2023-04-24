@@ -13,6 +13,8 @@ import NotFound from "./NotFound";
 import MyVacations from "./MyVacations";
 import AddVacationForm from "./AddVacationForm";
 import VacationCard from "./VacationCard";
+import AdventureList from "./AdventureList";
+import AdventureCard from "./AdventureCard";
 
 function App() {
   const [vacations, setVacations] = useState([]);
@@ -39,14 +41,9 @@ function App() {
           path="/vacations"
           element={<MyVacations vacations={vacations} />}
         />
-        {vacations.map((vacation) => (
-          <Route
-            key={vacation.id}
-            path={`/vacations/${vacation.id}`}
-            element={<VacationCard vacation={vacation} />}
-          />
-        ))}
-
+        <Route path="/vacations/:id" element={<VacationCard />} />
+        <Route path="/vacations/:id/adventures" element={<AdventureList />} />
+        <Route path="/adventures/:id" element={<AdventureCard />} />
         <Route path="/add-vacation" element={<AddVacationForm />} />
       </Routes>
     </UserProvider>

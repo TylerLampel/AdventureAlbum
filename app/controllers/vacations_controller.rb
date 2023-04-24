@@ -3,12 +3,13 @@ class VacationsController < ApplicationController
 
     def index
         vacations = current_user.vacations
-        render json: vacations, include: :photos, status: :ok
+        render json: vacations, include: :adventures, status: :ok
     end
     
     def show
         vacation = current_user.vacations.find(params[:id])
-        render json: vacation, status: :ok
+        puts "params: #{params[:vacation_id]}"
+        render json: vacation, include: :adventures, status: :ok
     end
 
     def create

@@ -30,6 +30,7 @@ function Navbar() {
         <br />
         <button onClick={logoutUser}>Logout</button>
         <br />
+        <br />
       </div>
     );
   } else {

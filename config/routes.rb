@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  resources :photos
-  resources :vacations do
-    resources :photos, only: [:create]
+  resources :vacations, only: [:index, :show, :create] do
+    resources :adventures, only: [:index, :create]
   end
+
+  resources :adventures, only: [:show, :update, :destroy]
   
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
