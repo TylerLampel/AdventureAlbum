@@ -1,7 +1,8 @@
 class AdventuresController < ApplicationController
 
     def index
-        adventures = Adventure.all
+        vacation = Vacation.find_by(id: params[:vacation_id])
+        adventures = vacation.adventures
         render json: adventures
     end
 

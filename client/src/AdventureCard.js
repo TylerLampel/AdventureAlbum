@@ -1,20 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-function AdventureCard({ adventureId }) {
-  const [adventure, setAdventure] = useState(null);
-
-  useEffect(() => {
-    fetch(`/adventures/${adventureId}`)
-      .then((response) => response.json())
-      .then((data) => setAdventure(data));
-  }, [adventureId]);
-
-  if (!adventure) {
-    return <div>Loading...</div>;
-  }
-
-  console.log(adventure.images);
-
+function AdventureCard({ adventure }) {
   return (
     <div>
       <h1>{adventure.title}</h1>
@@ -23,7 +9,7 @@ function AdventureCard({ adventureId }) {
         return (
           <img
             key={image.id}
-            src={image}
+            src={image.url}
             alt={image.created_at}
             height="200px"
             width="200px"
@@ -35,14 +21,3 @@ function AdventureCard({ adventureId }) {
 }
 
 export default AdventureCard;
-
-// {images.map((image, index) => (
-//   <div key={index}>
-//     <img
-//       src={URL.createObjectURL(image)}
-//       alt={image.name}
-//       height="200px"
-//       width="200px"
-//     />
-//   </div>
-// ))}

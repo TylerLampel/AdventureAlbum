@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function CreateAdventureForm() {
+function CreateAdventureForm({ addAdventure }) {
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [images, setImages] = useState([]);
@@ -20,16 +20,20 @@ function CreateAdventureForm() {
     const formData = new FormData();
     formData.append("adventure[title]", title);
     formData.append("adventure[vacation_id]", id);
-    images.forEach((image) => {
-      formData.append("adventure[images][]", image);
-    });
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append("adventure[images][]", images[i]);
+    }
 
     fetch(`/vacations/${id}/adventures`, {
       method: "POST",
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log(data);
+        addAdventure(data);
+      });
   }
 
   return (
@@ -41,17 +45,12 @@ function CreateAdventureForm() {
         </div>
         <div>
           <label>Images:</label>
-          <input type="file" multiple onChange={handleImageChange} />
-          {/* {images.map((image, index) => (
-            <div key={index}>
-              <img
-                src={URL.createObjectURL(image)}
-                alt={image.name}
-                height="200px"
-                width="200px"
-              />
-            </div>
-          ))} */}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageChange}
+          />
         </div>
         <button type="submit">Upload Adventure</button>
       </form>

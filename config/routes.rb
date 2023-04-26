@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :locations
   resources :vacations, only: [:index, :show, :create] do
     resources :adventures, only: [:index, :create]
   end

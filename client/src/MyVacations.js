@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "./context/User";
 import { Link } from "react-router-dom";
 
-function MyVacations({ vacations }) {
+function MyVacations() {
+  const { vacations } = useContext(UserContext);
   const renderedVacationLinks = vacations.map((vacation) => {
     return (
       <li key={vacation.id}>

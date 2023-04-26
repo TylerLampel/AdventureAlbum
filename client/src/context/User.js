@@ -7,6 +7,16 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false); //add loggedIn flag
+  const [vacations, setVacations] = useState([]);
+
+  useEffect(() => {
+    fetch("/vacations")
+      .then((res) => res.json())
+      .then((data) => {
+        setVacations(data);
+        console.log("vacations", data);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/me")
@@ -46,6 +56,8 @@ function UserProvider({ children }) {
         logout,
         signup,
         loggedIn,
+        vacations,
+        setVacations,
       }}
     >
       {children}

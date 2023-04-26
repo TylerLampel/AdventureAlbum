@@ -1,21 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AdventureCard from "./AdventureCard";
+import { useParams } from "react-router-dom";
 import CreateAdventureForm from "./CreateAdventureForm";
 
-function AdventureList({ adventures }) {
+function AdventureList() {
+  const { id } = useParams();
+  const [adventures, setAdventures] = useState([]);
+
+  useEffect(() => {
+    fetch(`/vacations/${id}/adventures`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAdventures(data);
+      });
+  }, [id]);
+
+  console.log("adventures", adventures);
+
+  function addAdventure(newAdventure) {
+    const updatedAdventures = {
+      ...adventures,
+      newAdventure,
+    };
+    setAdventures(updatedAdventures);
+  }
+
   return (
     <div>
       <h1>Adventures</h1>
-      <CreateAdventureForm />
-      {adventures ? (
-        <div>
-          {adventures.map((adventure) => (
-            <AdventureCard key={adventure.id} adventureId={adventure.id} />
-          ))}
-        </div>
-      ) : (
-        <div>Loading ...</div>
-      )}
+      <CreateAdventureForm addAdventure={addAdventure} />
+      <div>
+        {adventures.map((adventure) => (
+          <div>
+            <AdventureCard
+              key={adventure.id}
+              adventure={adventure}
+              adventures={adventures}
+              setAdventures={setAdventures}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

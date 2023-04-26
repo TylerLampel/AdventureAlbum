@@ -8,7 +8,6 @@ class VacationsController < ApplicationController
     
     def show
         vacation = current_user.vacations.find(params[:id])
-        puts "params: #{params[:vacation_id]}"
         render json: vacation, include: :adventures, status: :ok
     end
 
@@ -19,7 +18,7 @@ class VacationsController < ApplicationController
 
     def update
         vacation = current_user.vacations.find(params[:id])
-        vaction.update(vacation_params)
+        vacation.update(vacation_params)
         render json: vacation
     end
 
