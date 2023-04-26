@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_210244) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_26_160505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,15 +47,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_210244) do
     t.bigint "vacation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "location_id", null: false
+    t.index ["location_id"], name: "index_adventures_on_location_id"
     t.index ["vacation_id"], name: "index_adventures_on_vacation_id"
   end
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.bigint "adventure_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["adventure_id"], name: "index_locations_on_adventure_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_210244) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "adventures", "locations"
   add_foreign_key "adventures", "vacations"
-  add_foreign_key "locations", "adventures"
   add_foreign_key "vacations", "users"
 end

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function CreateAdventureForm({ addAdventure }) {
+function CreateAdventureForm({ adventures, setAdventures }) {
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [images, setImages] = useState([]);
@@ -32,7 +32,7 @@ function CreateAdventureForm({ addAdventure }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        addAdventure(data);
+        setAdventures(...adventures, data);
       });
   }
 

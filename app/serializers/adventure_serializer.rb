@@ -1,8 +1,9 @@
 class AdventureSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
 
-  attributes :id, :title, :vacation_id, :images
+  attributes :id, :title, :vacation_id, :images, :location
   has_one :vacation
+  has_one :location
 
   def images
     return unless object.images.attached?

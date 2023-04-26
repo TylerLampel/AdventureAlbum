@@ -22,7 +22,7 @@ function VacationCard() {
       <p>Departure Date: {vacation.departure_date}</p>
       <p>Return Date: {vacation.return_date}</p>
       <br />
-      <AdventureList adventures={vacation.adventures} />
+      <AdventureList adv={vacation.adventures} />
     </div>
   );
 }
