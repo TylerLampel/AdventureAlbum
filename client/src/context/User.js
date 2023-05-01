@@ -7,7 +7,10 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false); //add loggedIn flag
-  const [vacations, setVacations] = useState([]);
+  const [vacations, setVacations] = useState({
+    adventures: [],
+    locations: [],
+  });
 
   useEffect(() => {
     fetch("/vacations")

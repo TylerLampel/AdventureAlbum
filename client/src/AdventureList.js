@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdventureCard from "./AdventureCard";
 import CreateAdventureForm from "./CreateAdventureForm";
 
 function AdventureList({ adv }) {
-  const [adventures, setAdventures] = useState(adv);
+  const [adventures, setAdventures] = useState([]);
 
-  console.log("adventures", adventures);
+  useEffect(() => {
+    if (adv && adv.length > 0) {
+      setAdventures(adv);
+    }
+  }, [adv]);
+
+  const locations = Array.isArray(adventures)
+    ? adventures.map((adv) => adv.location)
+    : [];
+
+  if (!Array.isArray(adventures) || adventures.length === 0) {
+    return (
+      <div>
+        <p>No Adventures Found</p>
+        <CreateAdventureForm
+          adventures={adventures}
+          setAdventures={setAdventures}
+          locs={locations}
+        />
+      </div>
+    );
+  }
 
   const renderedAdventures = adventures.map((adventure) => (
-    <div>
+    <div key={adventure.id}>
       <AdventureCard
         key={adventure.id}
         adventure={adventure}
@@ -24,6 +45,7 @@ function AdventureList({ adv }) {
       <CreateAdventureForm
         adventures={adventures}
         setAdventures={setAdventures}
+        locs={locations}
       />
       {renderedAdventures}
     </div>

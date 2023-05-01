@@ -1,10 +1,10 @@
 class LocationsController < ApplicationController
     skip_before_action :authorize
 
-    def index
-        locations = Locations
-        render json: locations, include: :adventures, status: :ok
-    end
+    # def index
+    #     locations = Locations
+    #     render json: locations, include: :adventures, status: :ok
+    # end
     
     # def show
     #     location = Locations.find(params[:id])

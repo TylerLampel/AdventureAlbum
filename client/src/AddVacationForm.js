@@ -1,13 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "./context/User";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 function AddVacationForm() {
   const [title, setTitle] = useState("");
-  const [depDate, setDepDate] = useState("");
-  const [retDate, setRetDate] = useState("");
+  const [depDate, setDepDate] = useState(new Date());
+  const [retDate, setRetDate] = useState(new Date());
+
+  const { vacations, setVacations } = useContext(UserContext);
+
+  const minDate = depDate;
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
+    const newVacation = {
+      title: title,
+      departure_date: depDate.toISOString(),
+      return_date: retDate.toISOString(),
+    };
+
+    fetch("/vacations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newVacation),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setVacations([...vacations, data]);
+      });
+    setTitle("");
+    setDepDate(new Date());
+    setRetDate(new Date());
   }
   return (
     <div>
@@ -21,18 +45,10 @@ function AddVacationForm() {
         />
         <br />
         <label>Departure Date: </label>
-        <input
-          id="departure_date"
-          value={depDate}
-          onChange={(e) => setDepDate(e.target.value)}
-        />
+        <Calendar onChange={setDepDate} value={depDate} />
         <br />
         <label>Return Date: </label>
-        <input
-          id="return-date"
-          value={retDate}
-          onChange={(e) => setRetDate(e.target.value)}
-        />
+        <Calendar onChange={setRetDate} value={retDate} minDate={minDate} />
         <br />
         <button type="submit">Submit</button>
       </form>

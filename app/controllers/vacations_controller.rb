@@ -31,7 +31,7 @@ class VacationsController < ApplicationController
     private
 
     def vacation_params
-        params.permit(:title, :departure_date, :return_date)
+        params.require(:vacation).permit(:title, :departure_date, :return_date)
     end
 
     def render_not_found_response

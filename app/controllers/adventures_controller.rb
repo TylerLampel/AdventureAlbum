@@ -24,6 +24,6 @@ class AdventuresController < ApplicationController
       private
     
       def adventure_params
-        params.require(:adventure).permit(:title, :description, :vacation_id, :location_id images: [])
+        params.require(:adventure).permit(:title, :vacation_id, :location_id, images: [])
       end
 end
