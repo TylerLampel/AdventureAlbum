@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 
 function MyVacations() {
   const { vacations } = useContext(UserContext);
-  if (Array.isArray(vacations) && vacations.length > 0) {
-    return <p>Loading...</p>;
-  }
   const renderedVacationLinks = vacations.map((vacation) => {
     return (
       <li key={vacation.id}>

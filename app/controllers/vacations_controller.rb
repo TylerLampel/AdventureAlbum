@@ -5,11 +5,6 @@ class VacationsController < ApplicationController
         vacations = current_user.vacations
         render json: vacations, include: :adventures, status: :ok
     end
-    
-    def show
-        vacation = current_user.vacations.find(params[:id])
-        render json: vacation, include: :adventures, status: :ok
-    end
 
     def create
         vacation = current_user.vacations.create!(vacation_params)

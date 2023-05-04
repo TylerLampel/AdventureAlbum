@@ -2,10 +2,20 @@ import React from "react";
 
 function AdventureCard({ adventure }) {
   const images = adventure.images;
-  const renderedAdventureCards = images.map((image) => {
+
+  if (!Array.isArray(images) || images.length === 0) {
+    return (
+      <div>
+        <h1>{adventure.title}</h1>
+        <p>No images available.</p>
+      </div>
+    );
+  }
+
+  const renderedAdventureCards = images.map((image, index) => {
     return (
       <img
-        key={image.id}
+        key={index}
         src={image.url}
         alt={image.created_at}
         height="200px"
@@ -14,14 +24,13 @@ function AdventureCard({ adventure }) {
     );
   });
 
-  if (!Array.isArray(images) || images.length === 0) {
-    return (
-      <div>
-        <h1>{adventure.title}</h1>
-        {renderedAdventureCards}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>{adventure.title}</h1>
+      <p>{adventure.location.name}</p>
+      {renderedAdventureCards}
+    </div>
+  );
 }
 
 export default AdventureCard;

@@ -20,9 +20,9 @@ function AdventureList({ adv }) {
       <div>
         <p>No Adventures Found</p>
         <CreateAdventureForm
+          locs={locations}
           adventures={adventures}
           setAdventures={setAdventures}
-          locs={locations}
         />
       </div>
     );
@@ -33,7 +33,6 @@ function AdventureList({ adv }) {
       <AdventureCard
         key={adventure.id}
         adventure={adventure}
-        adventures={adventures}
         setAdventures={setAdventures}
       />
     </div>
@@ -43,9 +42,9 @@ function AdventureList({ adv }) {
     <div>
       <h1>Adventures</h1>
       <CreateAdventureForm
+        locs={locations}
         adventures={adventures}
         setAdventures={setAdventures}
-        locs={locations}
       />
       {renderedAdventures}
     </div>

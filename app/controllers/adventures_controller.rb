@@ -1,4 +1,5 @@
 class AdventuresController < ApplicationController
+  skip_before_action :authorize
 
     def index
         vacation = Vacation.find_by(id: params[:vacation_id])
@@ -24,6 +25,6 @@ class AdventuresController < ApplicationController
       private
     
       def adventure_params
-        params.require(:adventure).permit(:title, :vacation_id, :location_id, images: [])
+        params.permit(:title, :vacation_id, :location_id, images: [])
       end
 end

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./context/User";
+import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -7,6 +8,7 @@ function AddVacationForm() {
   const [title, setTitle] = useState("");
   const [depDate, setDepDate] = useState(new Date());
   const [retDate, setRetDate] = useState(new Date());
+  const navigate = useNavigate();
 
   const { vacations, setVacations } = useContext(UserContext);
 
@@ -32,6 +34,7 @@ function AddVacationForm() {
     setTitle("");
     setDepDate(new Date());
     setRetDate(new Date());
+    navigate("/vacations");
   }
   return (
     <div>
