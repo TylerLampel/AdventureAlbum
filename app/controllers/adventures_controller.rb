@@ -1,19 +1,9 @@
 class AdventuresController < ApplicationController
   skip_before_action :authorize
 
-    def index
-        vacation = Vacation.find_by(id: params[:vacation_id])
-        adventures = vacation.adventures
-        render json: adventures
-    end
-
-    def show
-        @adventure = Adventure.find(params[:id])
-        render json: @adventure.as_json( include: :images)
-      end
-
     def create
         @adventure = Adventure.new(adventure_params)
+        # @adventure.location_id = params[:location_id]
     
         if @adventure.save
           render json: { message: 'Adventure uploaded successfully!' }, status: :created
@@ -25,6 +15,6 @@ class AdventuresController < ApplicationController
       private
     
       def adventure_params
-        params.permit(:title, :vacation_id, :location_id, images: [])
+        params.require(:adventure).permit(:title, :vacation_id, :location_id, images: [])
       end
 end

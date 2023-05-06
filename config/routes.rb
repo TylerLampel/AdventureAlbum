@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
   resources :locations
   resources :vacations, only: [:index, :show, :create] do
-    resources :adventures, only: [:index, :create]
+    resources :adventures, only: [:create]
   end
-
-  resources :adventures, only: [:show, :update, :destroy]
   
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

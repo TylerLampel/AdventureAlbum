@@ -3,7 +3,7 @@ class VacationsController < ApplicationController
 
     def index
         vacations = current_user.vacations
-        render json: vacations, include: :adventures, status: :ok
+        render json: vacations, include: [:adventures, :locations], status: :ok
     end
 
     def create
