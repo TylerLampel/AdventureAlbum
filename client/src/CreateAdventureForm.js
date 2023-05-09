@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "./context/User";
 
@@ -6,10 +6,10 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
   const { id } = useParams();
   const { vacations } = useContext(UserContext);
   const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  // const [locations, setLocations] = useState([]);
+  const [locationName, setLocationName] = useState("");
   const [images, setImages] = useState([]);
-  // const [showNewLocationInput, setShowNewLocationInput] = useState(false);
+  const [showNewLocationInput, setShowNewLocationInput] = useState(false);
+  const [showSelectLocation, setShowLocationInput] = useState(false);
   // const [loading, setLoading] = useState(false);
 
   const allLocations = [];
@@ -36,8 +36,6 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       formData.append("adventure[images][]", images[i]);
     }
 
-    console.log("New Adventure", formData);
-
     fetch(`/vacations/${id}/adventures`, {
       method: "POST",
       body: formData,
@@ -45,9 +43,6 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       .then((res) => res.json())
       .then((data) => addAdventure(data));
   }
-  // function handleLocationChange(e) {
-  //   setLocation(e.target.value);
-  // }
 
   function handleLocationSubmit(e) {
     e.preventDefault();
@@ -56,19 +51,19 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: name }),
+      body: JSON.stringify({ name: locationName }),
     })
       .then((res) => res.json())
       .then((newLocation) => addLocation(newLocation));
-    setName("");
+    setLocationName("");
   }
 
   function handleImageChange(e) {
     setImages([...images, ...e.target.files]);
   }
 
-  function handleNameChange(e) {
-    setName(e.target.value);
+  function handleLocationNameChange(e) {
+    setLocationName(e.target.value);
   }
 
   // function handleNewLocationSubmit(e) {
@@ -156,28 +151,27 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
   //     });
   // }
 
-  // const renderedLocationOptions =
-  //   !locations || locations.length === 0 ? (
-  //     <option value="">Please Create A Location</option>
-  //   ) : (
-  //     <>
-  //       <option value="">Select a location</option>
-  //       {locations.map((location, index) => (
-  //         <option key={index} value={location.name}>
-  //           {location.name}
-  //         </option>
-  //       ))}
-  //     </>
-  //   );
+  const renderedLocationInput = showNewLocationInput ? (
+    <div>
+      <label>Create a New Location</label>
+      <input
+        type="text"
+        value={locationName}
+        onChange={handleLocationNameChange}
+      ></input>
+      <button type="submit">Add Location</button>
+    </div>
+  ) : (
+    <></>
+  );
 
   return (
     <div>
       <form onSubmit={handleLocationSubmit}>
-        <div>
-          <label>Create a New Location</label>
-          <input type="text" value={name} onChange={handleNameChange}></input>
-        </div>
-        <button type="submit">Add Location</button>
+        <button>Select Location</button>
+
+        <button>Create New Location</button>
+        {renderedLocationInput}
       </form>
       <form onSubmit={handleSubmit}>
         <div>
