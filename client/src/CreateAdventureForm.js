@@ -9,16 +9,14 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
   const [locationName, setLocationName] = useState("");
   const [images, setImages] = useState([]);
   const [showNewLocationInput, setShowNewLocationInput] = useState(false);
-  const [showSelectLocation, setShowLocationInput] = useState(false);
-  // const [loading, setLoading] = useState(false);
+  const [selectedLocationId, setSelectedLocationId] = useState(undefined);
 
   const allLocations = [];
 
-  vacations.map((vacation) => {
-    vacation.locations.map((location) => {
-      allLocations.push(location);
-    });
-  });
+  vacations &&
+    vacations.map((vacation) =>
+      vacation.locations.map((location) => allLocations.push(location))
+    );
 
   function handleTitleChange(e) {
     setTitle(e.target.value);
@@ -27,9 +25,14 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
   function handleSubmit(e) {
     e.preventDefault();
 
+    if (selectedLocationId === undefined) {
+      alert("Please select a location or create a new one.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("adventure[title]", title);
-    formData.append("adventure[location_id]");
+    formData.append("adventure[location_id]", selectedLocationId);
     formData.append("adventure[vacation_id]", id);
 
     for (let i = 0; i < images.length; i++) {
@@ -46,6 +49,7 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
 
   function handleLocationSubmit(e) {
     e.preventDefault();
+
     fetch("/locations", {
       method: "POST",
       headers: {
@@ -54,8 +58,12 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       body: JSON.stringify({ name: locationName }),
     })
       .then((res) => res.json())
-      .then((newLocation) => addLocation(newLocation));
-    setLocationName("");
+      .then((newLocation) => {
+        console.log(newLocation);
+        addLocation(newLocation);
+        setLocationName("");
+        setShowNewLocationInput(false);
+      });
   }
 
   function handleImageChange(e) {
@@ -66,90 +74,17 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     setLocationName(e.target.value);
   }
 
-  // function handleNewLocationSubmit(e) {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   const newLocationData = { name: location };
+  function handleLocationSelectChange(e) {
+    setSelectedLocationId(e.target.value);
+  }
 
-  //   // Replace 1 with the ID of the vacation you want to add the location to
-  //   const vacationToUpdate = vacations.find((vacation) => vacation.id == id);
-
-  //   fetch("/locations", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(newLocationData),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((newLocation) => {
-  //       // Add the new location to the vacation's locations array
-  //       vacationToUpdate.locations.push(newLocation);
-
-  //       // Update the vacations state with the updated vacation object
-  //       setVacations((prevVacations) => ({
-  //         ...prevVacations,
-  //         [vacationToUpdate.id]: vacationToUpdate,
-  //       }));
-
-  //       setLoading(false);
-  //     });
-  // }
-
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   let locationId;
-  //   const existingLocation = locations.find((loc) => loc.name === location);
-  //   if (existingLocation) {
-  //     locationId = existingLocation.id;
-  //   } else {
-  //     locationId = location.id;
-  //     return;
-  //   }
-  //   formData.append("adventure[title]", title);
-  //   formData.append("adventure[location_id]", locationId);
-  //   formData.append("adventure[vacation_id]", id);
-
-  //   for (let i = 0; i < images.length; i++) {
-  //     formData.append("adventure[images][]", images[i]);
-  //   }
-
-  //   console.log("New Adventure", formData);
-
-  //   fetch(`/vacations/${id}/adventures`, {
-  //     method: "POST",
-  //     body: formData,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setAdventures(
-  //         Array.isArray(adventures) ? [...adventures, data] : [data]
-  //       );
-  //       e.target.reset();
-
-  //       // Update the vacation in the vacations array
-  //       const updatedVacations = vacations.map((vacation) => {
-  //         if (vacation.id === id) {
-  //           const updatedAdventures = [...vacation.adventures, data];
-  //           const updatedLocations = existingLocation
-  //             ? [...vacation.locations]
-  //             : [...vacation.locations, data.location];
-  //           return {
-  //             ...vacation,
-  //             adventures: updatedAdventures,
-  //             locations: updatedLocations,
-  //           };
-  //         } else {
-  //           return vacation;
-  //         }
-  //       });
-
-  //       // Update the vacations state with the updated array
-  //       setVacations(updatedVacations);
-  //     });
-  // }
+  const renderedLocationOptions = allLocations.map((location, index) => {
+    return (
+      <option key={index} value={location.id}>
+        {location.name}
+      </option>
+    );
+  });
 
   const renderedLocationInput = showNewLocationInput ? (
     <div>
@@ -162,15 +97,30 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       <button type="submit">Add Location</button>
     </div>
   ) : (
-    <></>
+    <div>
+      <label>Select A Location:</label>
+      <select value={selectedLocationId} onChange={handleLocationSelectChange}>
+        {renderedLocationOptions}
+      </select>
+    </div>
   );
 
   return (
     <div>
       <form onSubmit={handleLocationSubmit}>
-        <button>Select Location</button>
+        <p>
+          Select location of adventure from the drop down of locations, or
+          create a new one!
+        </p>
 
-        <button>Create New Location</button>
+        <button
+          type="button"
+          onClick={() => setShowNewLocationInput(!showNewLocationInput)}
+        >
+          {showNewLocationInput
+            ? "Click Here to Select Location"
+            : "Click Here to Create New Location"}
+        </button>
         {renderedLocationInput}
       </form>
       <form onSubmit={handleSubmit}>
@@ -191,52 +141,6 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       </form>
     </div>
   );
-  // return (
-  //   <div>
-  //     <form onSubmit={handleSubmit}>
-  //       <div>
-  //         <label>Title:</label>
-  //         <input type="text" value={title} onChange={handleTitleChange} />
-  //       </div>
-  //       <div>
-  //         <label>Location:</label>
-  //         {showNewLocationInput ? (
-  //           <div>
-  //             <input
-  //               type="text"
-  //               value={location}
-  //               onChange={handleNewLocationInputChange}
-  //             />
-  //             <button onClick={handleNewLocationSubmit}>Add Location</button>
-  //             <button onClick={() => setShowNewLocationInput(false)}>
-  //               Cancel
-  //             </button>
-  //           </div>
-  //         ) : (
-  //           <>
-  //             <select value={location} onChange={handleLocationChange}>
-  //               {renderedLocationOptions}
-  //             </select>
-  //             <button onClick={() => setShowNewLocationInput(true)}>
-  //               Create New Location
-  //             </button>
-  //           </>
-  //         )}
-  //         {loading && <p>Creating location...</p>}
-  //       </div>
-  //       <div>
-  //         <label>Images:</label>
-  //         <input
-  //           type="file"
-  //           accept="image/*"
-  //           multiple
-  //           onChange={handleImageChange}
-  //         />
-  //       </div>
-  //       <button type="submit">Upload Adventure</button>
-  //     </form>
-  //   </div>
-  // );
 }
 
 export default CreateAdventureForm;

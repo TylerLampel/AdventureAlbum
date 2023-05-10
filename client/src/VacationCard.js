@@ -9,11 +9,11 @@ function VacationCard() {
   const { vacations, setVacations } = useContext(UserContext);
   const [vacation, setVacation] = useState({ adventures: [], locations: [] });
 
+  console.log("vacations", vacations);
+
   useEffect(() => {
-    if (vacations && vacations.length > 0) {
-      const currentVacation = vacations.find((v) => v.id === parseInt(id));
-      setVacation(currentVacation);
-    }
+    const currentVacation = vacations.find((v) => v.id === parseInt(id));
+    setVacation(currentVacation);
   }, [id, vacations]);
 
   if (!vacation) {

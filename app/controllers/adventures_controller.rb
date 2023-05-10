@@ -2,15 +2,17 @@ class AdventuresController < ApplicationController
   skip_before_action :authorize
 
     def create
-        @adventure = Adventure.new(adventure_params)
+        @adventure = Adventure.create!(adventure_params)
         # @adventure.location_id = params[:location_id]
+        render json: @adventure, status: :created
+    end
     
-        if @adventure.save
-          render json: { message: 'Adventure uploaded successfully!' }, status: :created
-        else
-          render json: { errors: @adventure.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+      #   if @adventure.save
+      #     render json: { message: 'Adventure uploaded successfully!' }, status: :created
+      #   else
+      #     render json: { errors: @adventure.errors.full_messages }, status: :unprocessable_entity
+      #   end
+      # end
     
       private
     

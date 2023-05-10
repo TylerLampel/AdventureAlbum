@@ -1,5 +1,10 @@
 // sudo service postgresql restart
 
+// create button to show or hide form
+//add new route to display a list of locations with associated vacations
+// add update, and destroy to vacations
+//style
+
 import "./App.css";
 import React from "react";
 import { Route, Routes } from "react-router-dom";

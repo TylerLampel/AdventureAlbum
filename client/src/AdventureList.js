@@ -1,6 +1,5 @@
 import React from "react";
 import AdventureCard from "./AdventureCard";
-import CreateAdventureForm from "./CreateAdventureForm";
 
 function AdventureList({ adventures }) {
   const renderedAdventures = adventures.map((adventure, index) => (
