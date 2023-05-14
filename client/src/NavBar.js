@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { UserContext } from "./context/User";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const { user, logout, loggedIn } = useContext(UserContext);
+  const { user, logout, loggedIn, setVacations } = useContext(UserContext);
+  const navigate = useNavigate();
 
   function logoutUser() {
     fetch("/logout", {
@@ -11,6 +12,8 @@ function Navbar() {
       headers: { "Content-Type": "application/json" },
     }).then(() => {
       logout();
+      setVacations([]);
+      navigate("/");
     });
   }
 

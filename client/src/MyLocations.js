@@ -3,7 +3,7 @@ import { UserContext } from "./context/User";
 import { Link } from "react-router-dom";
 
 function MyLocations() {
-  const { vacations } = useContext(UserContext);
+  const { loggedIn, vacations } = useContext(UserContext);
 
   const allLocations = [];
 
@@ -35,12 +35,17 @@ function MyLocations() {
       </div>
     );
   });
-  return (
-    <div>
-      <h2>My Locations</h2>
-      {renderedLocations}
-    </div>
-  );
+
+  if (loggedIn) {
+    return (
+      <div>
+        <h2>My Locations</h2>
+        {renderedLocations}
+      </div>
+    );
+  } else {
+    return <h2>Please Log In or Sign Up</h2>;
+  }
 }
 
 export default MyLocations;

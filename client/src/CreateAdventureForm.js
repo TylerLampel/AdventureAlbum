@@ -4,12 +4,13 @@ import { UserContext } from "./context/User";
 
 function CreateAdventureForm({ addAdventure, addLocation }) {
   const { id } = useParams();
-  const { vacations } = useContext(UserContext);
+  const { loggedIn, vacations } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [locationName, setLocationName] = useState("");
   const [images, setImages] = useState([]);
   const [showNewLocationInput, setShowNewLocationInput] = useState(false);
   const [selectedLocationId, setSelectedLocationId] = useState(undefined);
+  const [errors, setErrors] = useState([]);
 
   const allLocations = [];
 
@@ -24,11 +25,6 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    if (selectedLocationId === undefined) {
-      alert("Please select a location or create a new one.");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("adventure[title]", title);
@@ -45,9 +41,14 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        addAdventure(data);
-        setTitle("");
-        setImages([]);
+        if (!data.errors) {
+          addAdventure(data);
+          setTitle("");
+          setImages([]);
+        } else {
+          setErrors(data.errors);
+          alert(errors);
+        }
       });
   }
 
@@ -63,10 +64,15 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     })
       .then((res) => res.json())
       .then((newLocation) => {
-        addLocation(newLocation);
-        setLocationName("");
-        setSelectedLocationId(newLocation.id);
-        setShowNewLocationInput(false);
+        if (!newLocation.errors) {
+          addLocation(newLocation);
+          setLocationName("");
+          setSelectedLocationId(newLocation.id);
+          setShowNewLocationInput(false);
+        } else {
+          setErrors(newLocation.errors);
+          alert(errors);
+        }
       });
   }
 
@@ -82,12 +88,19 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     setSelectedLocationId(e.target.value);
   }
 
+  const uniqueLocations = [];
+
   const renderedLocationOptions = allLocations.map((location, index) => {
-    return (
-      <option key={index} value={location.id}>
-        {location.name}
-      </option>
-    );
+    if (!uniqueLocations.includes(location.name)) {
+      uniqueLocations.push(location.name);
+      return (
+        <option key={index} value={location.id}>
+          {location.name}
+        </option>
+      );
+    } else {
+      return null;
+    }
   });
 
   const renderedLocationInput = showNewLocationInput ? (
@@ -108,40 +121,43 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       </select>
     </div>
   );
-
-  return (
-    <div>
-      <p>
-        Select location of adventure from the drop down of locations, or create
-        a new one!
-      </p>
-      <button
-        type="button"
-        onClick={() => setShowNewLocationInput(!showNewLocationInput)}
-      >
-        {showNewLocationInput
-          ? "Click Here to Select Location"
-          : "Click Here to Create New Location"}
-      </button>
-      {renderedLocationInput}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input type="text" value={title} onChange={handleTitleChange} />
-        </div>
-        <div>
-          <label>Images:</label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-          />
-        </div>
-        <button type="submit">Upload Adventure</button>
-      </form>
-    </div>
-  );
+  if (loggedIn) {
+    return (
+      <div>
+        <p>
+          Select location of adventure from the drop down of locations, or
+          create a new one!
+        </p>
+        <button
+          type="button"
+          onClick={() => setShowNewLocationInput(!showNewLocationInput)}
+        >
+          {showNewLocationInput
+            ? "Click Here to Select Location"
+            : "Click Here to Create New Location"}
+        </button>
+        {renderedLocationInput}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Title:</label>
+            <input type="text" value={title} onChange={handleTitleChange} />
+          </div>
+          <div>
+            <label>Images:</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+            />
+          </div>
+          <button type="submit">Upload Adventure</button>
+        </form>
+      </div>
+    );
+  } else {
+    return <h2>Please Log In or Sign Up</h2>;
+  }
 }
 
 export default CreateAdventureForm;

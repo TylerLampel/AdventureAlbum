@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { UserContext } from "./context/User";
 import AdventureList from "./AdventureList";
 import CreateAdventureForm from "./CreateAdventureForm";
+import { UserContext } from "./context/User";
 
 function VacationCard() {
   const { id } = useParams();
   const { vacations, setVacations } = useContext(UserContext);
   const [vacation, setVacation] = useState({ adventures: [], locations: [] });
   const [showForm, setShowForm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,9 +55,13 @@ function VacationCard() {
         deleteVacation(id);
         navigate("/vacations");
       } else {
-        alert("vacation does not exist");
+        setErrorMessage("vacation does not exist");
       }
     });
+  }
+
+  if (errorMessage) {
+    alert(errorMessage);
   }
 
   const renderedVacation = (

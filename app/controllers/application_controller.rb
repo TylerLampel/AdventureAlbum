@@ -8,7 +8,7 @@ rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_resp
     private
 
     def current_user
-        @current_user= User.find_by(id: session[:user_id])
+        @current_user ||= User.find_by(id: session[:user_id])
     end
 
     def authorize

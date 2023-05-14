@@ -10,14 +10,6 @@ function UserProvider({ children }) {
   const [vacations, setVacations] = useState([]);
 
   useEffect(() => {
-    fetch("/vacations")
-      .then((res) => res.json())
-      .then((data) => {
-        setVacations(data);
-      });
-  }, []);
-
-  useEffect(() => {
     fetch("/me")
       .then((res) => res.json())
       .then((data) => {
@@ -33,7 +25,14 @@ function UserProvider({ children }) {
   function login(user) {
     setUser(user);
     setLoggedIn(true); // set loggedIn flag
+    fetch("/vacations")
+      .then((res) => res.json())
+      .then((data) => {
+        setVacations(data);
+      });
   }
+
+  console.log("vacations", vacations);
 
   function logout() {
     setUser({});

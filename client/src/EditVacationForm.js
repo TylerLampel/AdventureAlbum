@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { UserContext } from "./context/User";
 import { useNavigate, useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { UserContext } from "./context/User";
 
 function EditVacationForm() {
   const [title, setTitle] = useState("");

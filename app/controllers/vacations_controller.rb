@@ -12,7 +12,7 @@ class VacationsController < ApplicationController
     end
 
     def update
-        vacation = current_user.vacations.find(params[:id])
+        vacation = Vacation.find(params[:id])
         vacation.update(vacation_params)
         render json: vacation
     end
@@ -26,7 +26,7 @@ class VacationsController < ApplicationController
     private
 
     def vacation_params
-        params.require(:vacation).permit(:title, :departure_date, :return_date)
+        params.require(:vacation).permit(:title, :departure_date, :return_date, :user_id)
     end
 
     def render_not_found_response
