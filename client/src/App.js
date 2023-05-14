@@ -1,8 +1,4 @@
 // sudo service postgresql restart
-
-// create button to show or hide form
-//add new route to display a list of locations with associated vacations
-// add update, and destroy to vacations
 //style
 
 import "./App.css";
@@ -18,6 +14,8 @@ import NotFound from "./NotFound";
 import MyVacations from "./MyVacations";
 import AddVacationForm from "./AddVacationForm";
 import VacationCard from "./VacationCard";
+import EditVacationForm from "./EditVacationForm";
+import MyLocations from "./MyLocations";
 
 function App() {
   return (
@@ -32,6 +30,8 @@ function App() {
         <Route path="/vacations" element={<MyVacations />} />
         <Route path="/vacations/:id" element={<VacationCard />} />
         <Route path="/add-vacation" element={<AddVacationForm />} />
+        <Route path="/edit-vacation/:id" element={<EditVacationForm />} />
+        <Route path="/my-locations" element={<MyLocations />} />
       </Routes>
     </UserProvider>
   );

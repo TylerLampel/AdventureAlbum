@@ -36,6 +36,7 @@ function AddVacationForm() {
     setRetDate(new Date());
     navigate("/vacations");
   }
+
   return (
     <div>
       <br />

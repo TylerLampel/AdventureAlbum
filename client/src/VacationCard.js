@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "./context/User";
 import AdventureList from "./AdventureList";
 import CreateAdventureForm from "./CreateAdventureForm";
@@ -8,8 +8,8 @@ function VacationCard() {
   const { id } = useParams();
   const { vacations, setVacations } = useContext(UserContext);
   const [vacation, setVacation] = useState({ adventures: [], locations: [] });
-
-  console.log("vacations", vacations);
+  const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const currentVacation = vacations.find((v) => v.id === parseInt(id));
@@ -41,17 +41,46 @@ function VacationCard() {
     setVacations(newVacations);
   }
 
+  function deleteVacation() {
+    const filteredVacations = vacations.filter((v) => v.id !== vacation.id);
+    setVacations(filteredVacations);
+  }
+
+  function handleDeleteVacationClick() {
+    fetch(`/vacations/${id}`, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.ok) {
+        deleteVacation(id);
+        navigate("/vacations");
+      } else {
+        alert("vacation does not exist");
+      }
+    });
+  }
+
   const renderedVacation = (
     <div>
       <h3>{vacation.title}</h3>
+      <button onClick={handleDeleteVacationClick}>Delete</button>
+      <button onClick={() => navigate(`/edit-vacation/${vacation.id}`)}>
+        Edit
+      </button>
       <p>Departure Date: {vacation.departure_date}</p>
       <p>Return Date: {vacation.return_date}</p>
       <br />
       <h1>Adventures</h1>
-      <CreateAdventureForm
-        addAdventure={addAdventure}
-        addLocation={addLocation}
-      />
+      <button onClick={() => setShowForm(!showForm)}>
+        {!showForm ? "Add Adventure" : "Cancel"}
+      </button>
+      {showForm ? (
+        <CreateAdventureForm
+          addAdventure={addAdventure}
+          addLocation={addLocation}
+        />
+      ) : (
+        <></>
+      )}
       <AdventureList
         adventures={vacation.adventures}
         addAdventure={addAdventure}

@@ -2,7 +2,6 @@ import React from "react";
 
 function AdventureCard({ adventure }) {
   const images = adventure.images;
-  console.log(adventure);
 
   const renderedAdventureCards =
     images &&

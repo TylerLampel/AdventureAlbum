@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :locations
-  resources :vacations, only: [:index, :show, :create] do
+  resources :vacations, only: [:index, :destroy, :create, :update] do
     resources :adventures, only: [:create]
   end
   

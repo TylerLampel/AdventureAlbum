@@ -44,7 +44,11 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => addAdventure(data));
+      .then((data) => {
+        addAdventure(data);
+        setTitle("");
+        setImages([]);
+      });
   }
 
   function handleLocationSubmit(e) {
@@ -59,15 +63,15 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     })
       .then((res) => res.json())
       .then((newLocation) => {
-        console.log(newLocation);
         addLocation(newLocation);
         setLocationName("");
+        setSelectedLocationId(newLocation.id);
         setShowNewLocationInput(false);
       });
   }
 
   function handleImageChange(e) {
-    setImages([...images, ...e.target.files]);
+    setImages(e.target.files);
   }
 
   function handleLocationNameChange(e) {
@@ -87,7 +91,7 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
   });
 
   const renderedLocationInput = showNewLocationInput ? (
-    <div>
+    <form onSubmit={handleLocationSubmit}>
       <label>Create a New Location</label>
       <input
         type="text"
@@ -95,7 +99,7 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
         onChange={handleLocationNameChange}
       ></input>
       <button type="submit">Add Location</button>
-    </div>
+    </form>
   ) : (
     <div>
       <label>Select A Location:</label>
@@ -107,22 +111,19 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
 
   return (
     <div>
-      <form onSubmit={handleLocationSubmit}>
-        <p>
-          Select location of adventure from the drop down of locations, or
-          create a new one!
-        </p>
-
-        <button
-          type="button"
-          onClick={() => setShowNewLocationInput(!showNewLocationInput)}
-        >
-          {showNewLocationInput
-            ? "Click Here to Select Location"
-            : "Click Here to Create New Location"}
-        </button>
-        {renderedLocationInput}
-      </form>
+      <p>
+        Select location of adventure from the drop down of locations, or create
+        a new one!
+      </p>
+      <button
+        type="button"
+        onClick={() => setShowNewLocationInput(!showNewLocationInput)}
+      >
+        {showNewLocationInput
+          ? "Click Here to Select Location"
+          : "Click Here to Create New Location"}
+      </button>
+      {renderedLocationInput}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Title:</label>

@@ -27,6 +27,9 @@ function Navbar() {
         <NavLink to="/add-vacation">
           <button>Add A Vaction</button>
         </NavLink>
+        <NavLink to="/my-locations">
+          <button>My Locations</button>
+        </NavLink>
         <br />
         <button onClick={logoutUser}>Logout</button>
         <br />
