@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // create context
 const UserContext = React.createContext();
@@ -8,6 +9,7 @@ function UserProvider({ children }) {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false); //add loggedIn flag
   const [vacations, setVacations] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/me")
@@ -33,6 +35,7 @@ function UserProvider({ children }) {
   }
 
   function logout() {
+    navigate("/");
     setUser({});
     setLoggedIn(false); // set loggedIn flag
   }
@@ -61,4 +64,4 @@ function UserProvider({ children }) {
   );
 }
 
-export { UserContext, UserProvider };
+export { UserProvider, UserContext };

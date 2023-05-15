@@ -1,8 +1,6 @@
 // sudo service postgresql restart
-//style
 
 import "./App.css";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { UserProvider } from "./context/User";
 import Home from "./Home";
@@ -16,11 +14,27 @@ import VacationCard from "./VacationCard";
 import EditVacationForm from "./EditVacationForm";
 import MyLocations from "./MyLocations";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
-  const theme = createTheme({});
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: "#5a90c6",
+      },
+      secondary: {
+        main: "#c6905a",
+      },
+      background: {
+        default: "#5ac6c6",
+        paper: "#40633e",
+      },
+    },
+  });
   return (
-    <ThemeProvider thme={theme}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <UserProvider>
         <Header />
         <Navbar />

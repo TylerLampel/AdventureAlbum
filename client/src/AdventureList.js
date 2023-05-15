@@ -1,4 +1,3 @@
-import React from "react";
 import AdventureCard from "./AdventureCard";
 
 function AdventureList({ adventures }) {
