@@ -32,8 +32,6 @@ function UserProvider({ children }) {
       });
   }
 
-  console.log("vacations", vacations);
-
   function logout() {
     setUser({});
     setLoggedIn(false); // set loggedIn flag

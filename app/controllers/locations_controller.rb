@@ -2,12 +2,12 @@ class LocationsController < ApplicationController
     skip_before_action :authorize
 
     # def index
-    #     locations = Locations
+    #     locations = Location.all
     #     render json: locations, include: :adventures, status: :ok
     # end
     
     # def show
-    #     location = Locations.find(params[:id])
+    #     location = Location.find(params[:id])
     #     render json: location, include: :adventures, status: :ok
     # end
 
