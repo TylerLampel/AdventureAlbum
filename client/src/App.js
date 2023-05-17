@@ -5,29 +5,65 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Signup from "./Signup";
 import Login from "./Login";
-import Navbar from "./NavBar";
-import Header from "./Header";
+import NavBar from "./NavBar";
 import MyVacations from "./MyVacations";
 import AddVacationForm from "./AddVacationForm";
 import VacationCard from "./VacationCard";
 import EditVacationForm from "./EditVacationForm";
 import MyLocations from "./MyLocations";
+import { UserProvider } from "./context/User";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#8aaeae",
+    },
+    secondary: {
+      main: "#47247f",
+    },
+    background: {
+      default: "#F5F5EB",
+      paper: "#b0acdc",
+    },
+    text: {
+      primary: "rgba(0,0,0,0.66)",
+    },
+  },
+  typography: {
+    h3: {
+      fontFamily: "Wix Madefor Display",
+    },
+    button: {
+      fontFamily: "Droid Sans",
+      fontWeight: 800,
+    },
+    h6: {
+      fontFamily: "Open Sans",
+    },
+  },
+});
 
 function App() {
   return (
     <div>
-      <Header />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/vacations" element={<MyVacations />} />
-        <Route path="/vacations/:id" element={<VacationCard />} />
-        <Route path="/add-vacation" element={<AddVacationForm />} />
-        <Route path="/edit-vacation/:id" element={<EditVacationForm />} />
-        <Route path="/my-locations" element={<MyLocations />} />
-      </Routes>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <UserProvider>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/vacations" element={<MyVacations />} />
+            <Route path="/vacations/:id" element={<VacationCard />} />
+            <Route path="/add-vacation" element={<AddVacationForm />} />
+            <Route path="/edit-vacation/:id" element={<EditVacationForm />} />
+            <Route path="/my-locations" element={<MyLocations />} />
+          </Routes>
+        </UserProvider>
+      </ThemeProvider>
     </div>
   );
 }

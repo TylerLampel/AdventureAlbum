@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { UserContext } from "./context/User";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -71,6 +72,9 @@ function Signup() {
         />
         <br />
         <button type="submit">Sign Up</button>
+        <Button variant="contained" href="/login">
+          Log In
+        </Button>
         <p>{errorsList}</p>
       </form>
     </div>

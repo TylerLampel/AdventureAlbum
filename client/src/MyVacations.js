@@ -6,7 +6,7 @@ function MyVacations() {
   const { loggedIn, vacations } = useContext(UserContext);
 
   const renderedVacationLinks =
-    vacations.length === 0 ? (
+    vacations && vacations.length === 0 ? (
       <li>Please add a vacation</li>
     ) : (
       vacations.map((vacation) => {
@@ -17,6 +17,8 @@ function MyVacations() {
         );
       })
     );
+
+  console.log(vacations);
 
   if (loggedIn) {
     return (

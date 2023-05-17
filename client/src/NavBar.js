@@ -1,8 +1,13 @@
 import { useContext } from "react";
 import { UserContext } from "./context/User";
 import { NavLink, useNavigate } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
-function Navbar() {
+function NavBar() {
   const { user, logout, loggedIn, setVacations } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -19,38 +24,70 @@ function Navbar() {
 
   if (loggedIn) {
     return (
-      <div>
-        <h3>Hello {user.username}</h3>
-        <NavLink to="/">
-          <button>Home</button>
-        </NavLink>
-        <NavLink to="/vacations">
-          <button>My Vacations</button>
-        </NavLink>
-        <NavLink to="/add-vacation">
-          <button>Add A Vaction</button>
-        </NavLink>
-        <NavLink to="/my-locations">
-          <button>My Locations</button>
-        </NavLink>
-        <br />
-        <button onClick={logoutUser}>Logout</button>
-        <br />
-        <br />
-      </div>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h3">Adventure Album</Typography>
+            <Box
+              sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}
+            >
+              <Button color="secondary" href="/">
+                Home
+              </Button>
+              <Button color="secondary" href="/vacations">
+                My Vacations
+              </Button>
+              <Button color="secondary" href="/add-vacation">
+                Add A Vaction
+              </Button>
+              <Button color="secondary" href="/my-locations">
+                My Locations
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                flexGrow: 1,
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ marginRight: "10px" }}>
+                Hello {user.username}
+              </Typography>
+              <Button
+                onClick={logoutUser}
+                color="secondary"
+                variant="contained"
+              >
+                Logout
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
     );
   } else {
     return (
-      <div>
-        <NavLink to="/login">
-          <button>Login</button>
-        </NavLink>
-        <NavLink to="/signup">
-          <button>Signup</button>
-        </NavLink>
-      </div>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h4">Adventure Album</Typography>
+            <Box
+              sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
+            >
+              <Button color="secondary" href="/login">
+                Login
+              </Button>
+              <Button color="secondary" href="/signup">
+                Signup
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
     );
   }
 }
 
-export default Navbar;
+export default NavBar;

@@ -24,14 +24,22 @@ function UserProvider({ children }) {
       });
   }, []);
 
+  useEffect(() => {
+    if (loggedIn && user) {
+      fetch("/vacations")
+        .then((res) => res.json())
+        .then((data) => {
+          setVacations(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [loggedIn, user]);
+
   function login(user) {
     setUser(user);
     setLoggedIn(true); // set loggedIn flag
-    fetch("/vacations")
-      .then((res) => res.json())
-      .then((data) => {
-        setVacations(data);
-      });
   }
 
   function logout() {
