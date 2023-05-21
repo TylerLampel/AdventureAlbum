@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "./context/User";
+import { Typography, Box } from "@mui/material";
 
 function AdventureCard({ adventure }) {
   const { loggedIn } = useContext(UserContext);
@@ -21,14 +22,24 @@ function AdventureCard({ adventure }) {
 
   if (loggedIn) {
     return (
-      <div>
-        <h1>{adventure.title}</h1>
-        <p>{adventure.location && adventure.location.name}</p>
-        {renderedAdventureCards}
-      </div>
+      <Box sx={{ padding: "16px", textAlign: "center" }}>
+        <Typography variant="h4" gutterBottom>
+          {adventure.title}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Location: {adventure.location.name}
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {renderedAdventureCards}
+        </Box>
+      </Box>
     );
   } else {
-    return <h2>Please Log In or Sign Up</h2>;
+    return (
+      <Box sx={{ padding: "16px", textAlign: "center" }}>
+        <Typography variant="h2">Please Log In or Sign Up</Typography>
+      </Box>
+    );
   }
 }
 
