@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import AdventureList from "./AdventureList";
 import CreateAdventureForm from "./CreateAdventureForm";
 import { UserContext } from "./context/User";
+import { Box, Paper, Typography, IconButton } from "@mui/material";
+import { Delete, Edit, Add, Cancel } from "@mui/icons-material";
 
 function VacationCard() {
   const { id } = useParams();
@@ -64,37 +66,57 @@ function VacationCard() {
     alert(errorMessage);
   }
 
-  const renderedVacation = (
-    <div>
-      <h3>{vacation.title}</h3>
-      <button onClick={handleDeleteVacationClick}>Delete</button>
-      <button onClick={() => navigate(`/edit-vacation/${vacation.id}`)}>
-        Edit
-      </button>
-      <p>Departure Date: {vacation.departure_date}</p>
-      <p>Return Date: {vacation.return_date}</p>
-      <br />
-      <h1>Adventures</h1>
-      <button onClick={() => setShowForm(!showForm)}>
-        {!showForm ? "Add Adventure" : "Cancel"}
-      </button>
-      {showForm ? (
-        <CreateAdventureForm
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "50vh",
+      }}
+    >
+      <Paper sx={{ padding: "20px" }}>
+        <Typography variant="h4">{vacation.title}</Typography>
+        <IconButton
+          onClick={handleDeleteVacationClick}
+          color="error"
+          aria-label="delete"
+        >
+          <Delete />
+        </IconButton>
+        <IconButton
+          onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
+          color="primary"
+          aria-label="edit"
+        >
+          <Edit />
+        </IconButton>
+        <Typography>Departure Date: {vacation.departure_date}</Typography>
+        <Typography>Return Date: {vacation.return_date}</Typography>
+        <Box mt={2}>
+          <Typography variant="h6">Adventures</Typography>
+          <IconButton
+            onClick={() => setShowForm(!showForm)}
+            color={showForm ? "error" : "primary"}
+            aria-label="add"
+          >
+            {showForm ? <Cancel /> : <Add />}
+          </IconButton>
+        </Box>
+        {showForm && (
+          <CreateAdventureForm
+            addAdventure={addAdventure}
+            addLocation={addLocation}
+          />
+        )}
+        <AdventureList
+          adventures={vacation.adventures}
           addAdventure={addAdventure}
           addLocation={addLocation}
         />
-      ) : (
-        <></>
-      )}
-      <AdventureList
-        adventures={vacation.adventures}
-        addAdventure={addAdventure}
-        addLocation={addLocation}
-      />
-    </div>
+      </Paper>
+    </Box>
   );
-
-  return <div>{renderedVacation}</div>;
 }
 
 export default VacationCard;

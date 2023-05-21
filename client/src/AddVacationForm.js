@@ -13,8 +13,6 @@ function AddVacationForm() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
-  const minDate = depDate;
-
   function handleSubmit(e) {
     e.preventDefault();
     const newVacation = {
