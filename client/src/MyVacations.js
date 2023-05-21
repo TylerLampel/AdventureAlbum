@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "./context/User";
 import { Link } from "react-router-dom";
+import { Box, Paper, Button, Typography } from "@mui/material";
 
 function MyVacations() {
   const { loggedIn, vacations } = useContext(UserContext);
@@ -22,13 +23,31 @@ function MyVacations() {
 
   if (loggedIn) {
     return (
-      <div>
-        <h2>My Vacations</h2>
-        <ul>{renderedVacationLinks}</ul>
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center", // Add this line
+          minHeight: "50vh",
+          gap: "20px",
+        }}
+      >
+        <Paper elevation={3} sx={{ padding: "20px" }}>
+          <Typography variant="h4" align="center" mb={3}>
+            My Vacations
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button component={Link} to="/add-vacation" variant="contained">
+              Add a Vacation
+            </Button>
+          </Box>
+          <ul>{renderedVacationLinks}</ul>
+        </Paper>
+      </Box>
     );
   } else {
-    return <h2>Please Log In or Sign Up</h2>;
+    return <Typography variant="h4">Please Log In or Sign Up</Typography>;
   }
 }
 

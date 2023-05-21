@@ -47,7 +47,7 @@ const theme = createTheme({
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <UserProvider>
