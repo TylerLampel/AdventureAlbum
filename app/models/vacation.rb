@@ -14,7 +14,6 @@ class Vacation < ApplicationRecord
     return unless departure_date && return_date
 
     if departure_date > return_date
-      errors.add(:departure_date, "must be before the return date")
       errors.add(:return_date, "must be after the departure date")
     end
   end

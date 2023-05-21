@@ -10,7 +10,7 @@ function AddVacationForm() {
   const [title, setTitle] = useState("");
   const [depDate, setDepDate] = useState(new Date());
   const [retDate, setRetDate] = useState(new Date());
-  const [errors, setErrors] = useState([]);
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -36,14 +36,11 @@ function AddVacationForm() {
           setRetDate(new Date());
           navigate("/vacations");
         } else {
-          setErrors(data.errors);
+          setError(data.errors);
         }
       });
   }
 
-  if (errors.length > 0) {
-    alert(errors);
-  }
   if (!loggedIn) {
     return <Typography variant="h4">Please Log In or Sign Up</Typography>;
   }
@@ -64,6 +61,15 @@ function AddVacationForm() {
         <Typography variant="h4" sx={{ marginBottom: "20px" }}>
           Add Vacation
         </Typography>
+        {error && (
+          <Typography
+            variant="body1"
+            color="error"
+            sx={{ marginBottom: "10px" }}
+          >
+            {error}
+          </Typography>
+        )}
         <form onSubmit={handleSubmit}>
           <Box
             sx={{
