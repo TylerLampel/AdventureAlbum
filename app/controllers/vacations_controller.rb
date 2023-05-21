@@ -13,8 +13,11 @@ class VacationsController < ApplicationController
 
     def update
         vacation = Vacation.find(params[:id])
-        vacation.update(vacation_params)
-        render json: vacation
+        if vacation.update(vacation_params)
+            render json: vacation
+          else
+            render json: { errors: vacation.errors.full_messages }, status: :unprocessable_entity
+          end
     end
 
     def destroy

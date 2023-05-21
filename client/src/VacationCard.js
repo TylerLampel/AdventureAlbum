@@ -76,21 +76,23 @@ function VacationCard() {
       }}
     >
       <Paper sx={{ padding: "20px" }}>
-        <Typography variant="h4">{vacation.title}</Typography>
-        <IconButton
-          onClick={handleDeleteVacationClick}
-          color="error"
-          aria-label="delete"
-        >
-          <Delete />
-        </IconButton>
-        <IconButton
-          onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
-          color="primary"
-          aria-label="edit"
-        >
-          <Edit />
-        </IconButton>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h4">{vacation.title}</Typography>
+          <IconButton
+            onClick={handleDeleteVacationClick}
+            color="error"
+            aria-label="delete"
+          >
+            <Delete />
+          </IconButton>
+          <IconButton
+            onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
+            color="primary"
+            aria-label="edit"
+          >
+            <Edit />
+          </IconButton>
+        </Box>
         <Typography>Departure Date: {vacation.departure_date}</Typography>
         <Typography>Return Date: {vacation.return_date}</Typography>
         <Box mt={2}>

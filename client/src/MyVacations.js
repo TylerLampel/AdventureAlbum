@@ -19,36 +19,33 @@ function MyVacations() {
       })
     );
 
-  console.log(vacations);
-
-  if (loggedIn) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center", // Add this line
-          minHeight: "50vh",
-          gap: "20px",
-        }}
-      >
-        <Paper elevation={3} sx={{ padding: "20px" }}>
-          <Typography variant="h4" align="center" mb={3}>
-            My Vacations
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Button component={Link} to="/add-vacation" variant="contained">
-              Add a Vacation
-            </Button>
-          </Box>
-          <ul>{renderedVacationLinks}</ul>
-        </Paper>
-      </Box>
-    );
-  } else {
+  if (!loggedIn) {
     return <Typography variant="h4">Please Log In or Sign Up</Typography>;
   }
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "50vh",
+        gap: "20px",
+      }}
+    >
+      <Paper elevation={3} sx={{ padding: "20px" }}>
+        <Typography variant="h4" align="center" mb={3}>
+          My Vacations
+        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Button component={Link} to="/add-vacation" variant="contained">
+            Add a Vacation
+          </Button>
+        </Box>
+        <ul>{renderedVacationLinks}</ul>
+      </Paper>
+    </Box>
+  );
 }
 
 export default MyVacations;
