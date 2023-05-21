@@ -70,32 +70,32 @@ function VacationCard() {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "column",
         alignItems: "center",
         minHeight: "50vh",
       }}
     >
-      <Paper sx={{ padding: "20px" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h4">{vacation.title}</Typography>
-          <IconButton
-            onClick={handleDeleteVacationClick}
-            color="error"
-            aria-label="delete"
-          >
-            <Delete />
-          </IconButton>
-          <IconButton
-            onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
-            color="primary"
-            aria-label="edit"
-          >
-            <Edit />
-          </IconButton>
-        </Box>
+      <Paper sx={{ padding: "20px", marginBottom: "20px" }}>
+        <Typography variant="h4">{vacation.title}</Typography>
+        <IconButton
+          onClick={handleDeleteVacationClick}
+          color="error"
+          aria-label="delete"
+        >
+          <Delete />
+        </IconButton>
+        <IconButton
+          onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
+          color="primary"
+          aria-label="edit"
+        >
+          <Edit />
+        </IconButton>
         <Typography>Departure Date: {vacation.departure_date}</Typography>
         <Typography>Return Date: {vacation.return_date}</Typography>
-        <Box mt={2}>
+      </Paper>
+      <Paper sx={{ padding: "20px" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="h6">Adventures</Typography>
           <IconButton
             onClick={() => setShowForm(!showForm)}
@@ -109,6 +109,7 @@ function VacationCard() {
           <CreateAdventureForm
             addAdventure={addAdventure}
             addLocation={addLocation}
+            setShowForm={setShowForm}
           />
         )}
         <AdventureList

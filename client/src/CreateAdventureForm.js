@@ -1,8 +1,19 @@
 import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { UserContext } from "./context/User";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Input,
+} from "@mui/material";
 
-function CreateAdventureForm({ addAdventure, addLocation }) {
+function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
   const { id } = useParams();
   const { loggedIn, vacations } = useContext(UserContext);
   const [title, setTitle] = useState("");
@@ -45,6 +56,7 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
           addAdventure(data);
           setTitle("");
           setImages([]);
+          setShowForm(false);
         } else {
           setErrors(data.errors);
           alert(errors);
@@ -94,9 +106,9 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
     if (!uniqueLocations.includes(location.name)) {
       uniqueLocations.push(location.name);
       return (
-        <option key={index} value={location.id}>
+        <MenuItem key={index} value={location.id}>
           {location.name}
-        </option>
+        </MenuItem>
       );
     } else {
       return null;
@@ -105,58 +117,76 @@ function CreateAdventureForm({ addAdventure, addLocation }) {
 
   const renderedLocationInput = showNewLocationInput ? (
     <form onSubmit={handleLocationSubmit}>
-      <label>Create a New Location</label>
-      <input
-        type="text"
+      <TextField
+        label="Create a New Location"
+        variant="outlined"
         value={locationName}
         onChange={handleLocationNameChange}
-      ></input>
-      <button type="submit">Add Location</button>
+      />
+      <Button type="submit" variant="contained">
+        Add Location
+      </Button>
     </form>
   ) : (
-    <div>
-      <label>Select A Location:</label>
-      <select value={selectedLocationId} onChange={handleLocationSelectChange}>
-        {renderedLocationOptions}
-      </select>
-    </div>
+    <Box>
+      <InputLabel>Select A Location:</InputLabel>
+      <FormControl variant="outlined" fullWidth>
+        <Select
+          value={selectedLocationId}
+          onChange={handleLocationSelectChange}
+          label="Select A Location"
+        >
+          {renderedLocationOptions}
+        </Select>
+      </FormControl>
+    </Box>
   );
+
   if (loggedIn) {
     return (
-      <div>
-        <p>
-          Select location of adventure from the drop down of locations, or
+      <Box>
+        <Typography variant="body1">
+          Select location of adventure from the drop-down of locations, or
           create a new one!
-        </p>
-        <button
+        </Typography>
+        <Button
           type="button"
           onClick={() => setShowNewLocationInput(!showNewLocationInput)}
+          variant="contained"
+          sx={{ marginTop: "10px", marginBottom: "10px" }}
         >
           {showNewLocationInput
             ? "Click Here to Select Location"
             : "Click Here to Create New Location"}
-        </button>
+        </Button>
         {renderedLocationInput}
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Title:</label>
-            <input type="text" value={title} onChange={handleTitleChange} />
-          </div>
-          <div>
-            <label>Images:</label>
-            <input
+          <Box sx={{ marginBottom: "10px" }}>
+            <TextField
+              label="Title"
+              variant="outlined"
+              fullWidth
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </Box>
+          <Box sx={{ marginBottom: "10px" }}>
+            <InputLabel>Images:</InputLabel>
+            <Input
               type="file"
               accept="image/*"
               multiple
               onChange={handleImageChange}
             />
-          </div>
-          <button type="submit">Upload Adventure</button>
+          </Box>
+          <Button type="submit" variant="contained">
+            Upload Adventure
+          </Button>
         </form>
-      </div>
+      </Box>
     );
   } else {
-    return <h2>Please Log In or Sign Up</h2>;
+    return <Typography variant="h2">Please Log In or Sign Up</Typography>;
   }
 }
 

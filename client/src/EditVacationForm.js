@@ -76,7 +76,7 @@ function EditVacationForm() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        minHeight: "50vh",
       }}
     >
       <Paper sx={{ padding: "20px" }}>
