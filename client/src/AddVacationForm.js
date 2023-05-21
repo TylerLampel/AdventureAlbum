@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import { UserContext } from "./context/User";
 import { useNavigate } from "react-router-dom";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Box, Button, Typography, TextField, Paper } from "@mui/material";
 
 function AddVacationForm() {
   const { loggedIn, user, vacations, setVacations } = useContext(UserContext);
@@ -45,31 +46,69 @@ function AddVacationForm() {
   if (errors.length > 0) {
     alert(errors);
   }
-  if (loggedIn) {
-    return (
-      <div>
-        <br />
-        <form onSubmit={handleSubmit}>
-          <label>Title: </label>
-          <input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <br />
-          <label>Departure Date: </label>
-          <Calendar onChange={setDepDate} value={depDate} />
-          <br />
-          <label>Return Date: </label>
-          <Calendar onChange={setRetDate} value={retDate} minDate={minDate} />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
-  } else {
-    return <h2>Please Log In or Sign Up</h2>;
+  if (!loggedIn) {
+    return <Typography variant="h4">Please Log In or Sign Up</Typography>;
   }
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "50vh",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{ padding: "20px", width: "400px", textAlign: "center" }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: "20px" }}>
+          Add Vacation
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              id="title"
+              label="Title"
+              variant="outlined"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <DatePicker
+              selected={depDate}
+              onChange={(date) => setDepDate(date)}
+              dateFormat="MM-dd-yyyy"
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+            />
+            <DatePicker
+              selected={retDate}
+              onChange={(date) => setRetDate(date)}
+              dateFormat="MM-dd-yyyy"
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+              minDate={depDate}
+            />
+          </Box>
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          </Box>
+        </form>
+      </Paper>
+    </Box>
+  );
 }
 
 export default AddVacationForm;
