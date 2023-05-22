@@ -1,24 +1,59 @@
-# README
+# AdventureAlbum App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+AdventureAlbum App is the back-end part of the AdventureAlbum web application. It provides the server-side logic and API endpoints required for user authentication, managing vacations, locations, adventures, and media uploads.
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+To run the AdventureAlbum App locally, follow these steps:
 
-* System dependencies
+1. Clone the repository:
 
-* Configuration
+```bash
+    git clone https://github.com/TylerLampel/AdventureAlbum.git
+```
 
-* Database creation
+2. Navigate to the app directory:
 
-* Database initialization
+```bash
+    cd AdventureAlbum/app
+```
 
-* How to run the test suite
+3. Install dependencies:
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+    bundle install
+```
 
-* Deployment instructions
+4. Set up the database:
 
-* ...
+- AdventureAlbum App uses a PostgreSQL database. Make sure you have PostgreSQL installed and running.
+
+- Create a new PostgreSQL database.
+
+- Set the database connection configuration in the `/config/environments` file.
+
+5. Run database migrations:
+
+```bash
+    rails db:migrate
+```
+
+6. Start the development server:
+
+```bash
+rails server
+```
+
+7. The AdventureAlbum App API will be accessible at http://localhost:3000.
+
+## Technologies Used
+
+- Ruby on Rails: A web application framework written in Ruby.
+
+- PostgreSQL: A powerful, open-source relational database management system.
+
+- ActiveStorage: A file attachment and uploading library provided by Ruby on Rails.
+
+## Contributing
+
+Contributions to the AdventureAlbum App are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request. Make sure to follow the project's code style and guidelines.
