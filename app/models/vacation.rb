@@ -4,7 +4,7 @@ class Vacation < ApplicationRecord
   has_many :locations, through: :adventures
 
   validates :title, :departure_date, :return_date, presence: true 
-  validates :title, :departure_date, :return_date, uniqueness: true
+  validates :title, :departure_date, :return_date, uniqueness: {scope: :user_id}
 
   validate :validate_departure_date_before_return_date
 
