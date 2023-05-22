@@ -1,50 +1,73 @@
 import { useContext } from "react";
 import { UserContext } from "./context/User";
 import { Link } from "react-router-dom";
+import {
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@mui/material";
 
 function MyLocations() {
   const { loggedIn, vacations } = useContext(UserContext);
 
-  const allLocations = [];
+  const uniqueLocations = {};
 
   vacations &&
-    vacations.map((vacation) =>
-      vacation.locations.map((location) => allLocations.push(location))
-    );
+    vacations.forEach((vacation) => {
+      vacation.locations.forEach((location) => {
+        const locationId = location.id;
+        if (!uniqueLocations[locationId]) {
+          uniqueLocations[locationId] = {
+            name: location.name,
+            vacations: [],
+          };
+        }
+        if (!uniqueLocations[locationId].vacations.includes(vacation.id)) {
+          uniqueLocations[locationId].vacations.push(vacation.id);
+        }
+      });
+    });
 
-  const renderedLocations = allLocations.map((loc, index) => {
-    const uniqueVacationIds = [];
-    return (
-      <div key={index}>
-        <h3>{loc.name}</h3>
-        <h4>Vacations:</h4>
-        <ul>
-          {loc.vacations.map((v, index) => {
-            if (!uniqueVacationIds.includes(v.id)) {
-              uniqueVacationIds.push(v.id);
+  const renderedLocations = Object.values(uniqueLocations).map(
+    (location, index) => (
+      <Box key={index} sx={{ marginBottom: "16px" }}>
+        <Typography variant="h4">{location.name}</Typography>
+        <Typography variant="h5">Vacations:</Typography>
+        <List>
+          {location.vacations.map((vacationId) => {
+            const vacation = vacations.find((v) => v.id === vacationId);
+            if (vacation) {
               return (
-                <li key={index}>
-                  <Link to={`/vacations/${v.id}`}>{v.title}</Link>
-                </li>
+                <ListItem key={vacation.id} disablePadding>
+                  <ListItemText>
+                    <Link to={`/vacations/${vacation.id}`}>
+                      {vacation.title}
+                    </Link>
+                  </ListItemText>
+                </ListItem>
               );
-            } else {
-              return null;
             }
+            return null;
           })}
-        </ul>
-      </div>
-    );
-  });
+        </List>
+      </Box>
+    )
+  );
 
   if (loggedIn) {
     return (
-      <div>
-        <h2>My Locations</h2>
-        {renderedLocations}
-      </div>
+      <Box sx={{ padding: "16px" }}>
+        <Paper elevation={3} sx={{ padding: "16px" }}>
+          <Typography variant="h3">My Locations</Typography>
+          {renderedLocations}
+        </Paper>
+      </Box>
     );
   } else {
-    return <h2>Please Log In or Sign Up</h2>;
+    return <Typography variant="h3">Please Log In or Sign Up</Typography>;
   }
 }
 
