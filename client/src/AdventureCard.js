@@ -16,6 +16,7 @@ function AdventureCard({ adventure }) {
           alt={image.created_at}
           height="200px"
           width="200px"
+          style={{ margin: "8px" }}
         />
       );
     });
@@ -29,7 +30,19 @@ function AdventureCard({ adventure }) {
         <Typography variant="body1" gutterBottom>
           Location: {adventure.location.name}
         </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap", // Allow images to wrap to the next line
+            gap: "16px", // Add gap between images
+            "& img": {
+              flex: "0 0 calc(20% - 80px)", // Show 5 images per row (adjust percentage and gap value accordingly)
+              maxWidth: "200px", // Ensure images don't exceed container width
+              maxHeight: "200px", // Limit the height of images
+            },
+          }}
+        >
           {renderedAdventureCards}
         </Box>
       </Box>
