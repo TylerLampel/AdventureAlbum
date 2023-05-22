@@ -14,6 +14,7 @@ import MyLocations from "./MyLocations";
 import { UserProvider } from "./context/User";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+
 const theme = createTheme({
   palette: {
     mode: "light",
@@ -21,11 +22,11 @@ const theme = createTheme({
       main: "#8aaeae",
     },
     secondary: {
-      main: "#47247f",
+      main: "#f7eae8",
     },
     background: {
       default: "#F5F5EB",
-      paper: "#b0acdc",
+      paper: "#f7eae8",
     },
     text: {
       primary: "rgba(0,0,0,0.66)",

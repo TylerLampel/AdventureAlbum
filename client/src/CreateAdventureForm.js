@@ -20,9 +20,9 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
   const [locationName, setLocationName] = useState("");
   const [images, setImages] = useState([]);
   const [showNewLocationInput, setShowNewLocationInput] = useState(false);
-  const [selectedLocationId, setSelectedLocationId] = useState(undefined);
+  const [selectedLocationId, setSelectedLocationId] = useState("");
   const [errors, setErrors] = useState([]);
-
+  console.log("Vacations", vacations);
   const allLocations = [];
 
   vacations &&
@@ -59,7 +59,6 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
           setShowForm(false);
         } else {
           setErrors(data.errors);
-          alert(errors);
         }
       });
   }
@@ -83,7 +82,6 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
           setShowNewLocationInput(false);
         } else {
           setErrors(newLocation.errors);
-          alert(errors);
         }
       });
   }
@@ -125,6 +123,12 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
       />
       <Button type="submit" variant="contained">
         Add Location
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => setShowNewLocationInput(false)}
+      >
+        Cancel
       </Button>
     </form>
   ) : (
@@ -172,17 +176,26 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
           </Box>
           <Box sx={{ marginBottom: "10px" }}>
             <InputLabel>Images:</InputLabel>
-            <Input
+            <input
               type="file"
               accept="image/*"
               multiple
-              onChange={handleImageChange}
+              onChange={(e) => handleImageChange(e)}
             />
           </Box>
           <Button type="submit" variant="contained">
             Upload Adventure
           </Button>
         </form>
+        {errors && (
+          <Typography
+            variant="body1"
+            color="error"
+            sx={{ marginBottom: "10px" }}
+          >
+            {errors}
+          </Typography>
+        )}
       </Box>
     );
   } else {

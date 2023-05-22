@@ -72,7 +72,8 @@ function VacationCard() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        minHeight: "50vh",
+        minHeight: "100vh",
+        marginTop: "20px",
       }}
     >
       <Paper sx={{ padding: "20px", marginBottom: "20px" }}>
