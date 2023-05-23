@@ -1,36 +1,18 @@
 class LocationsController < ApplicationController
     skip_before_action :authorize
 
-    # def index
-    #     locations = Location.all
-    #     render json: locations, include: :adventures, status: :ok
-    # end
-    
-    # def show
-    #     location = Location.find(params[:id])
-    #     render json: location, include: :adventures, status: :ok
-    # end
-
     def create
+        # Create a new location record with the parameters from the request
         location = Location.create!(location_params)
+
+        # Render the created location as JSON with a '201 Created' status
         render json: location, status: :created
     end
-
-    # def update
-    #     location = Location.find(params[:id])
-    #     location.update(location_params)
-    #     render json: location
-    # end
-
-    # def destroy
-    #     location = Location.find(params[:id])
-    #     location.destroy
-    #     head :no_content
-    # end
 
     private
 
     def location_params
+        # Define the permitted parameters for creating a location
         params.require(:location).permit(:name)
     end
 end
