@@ -51,7 +51,7 @@ function Signup() {
       minHeight="50vh"
     >
       <Grid item>
-        <Paper elevation="4">
+        <Paper elevation={4}>
           <Box p={3} display="flex" flexDirection="column" alignItems="center">
             <form onSubmit={handleSubmit}>
               <TextField

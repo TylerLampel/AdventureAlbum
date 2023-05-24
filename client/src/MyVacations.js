@@ -42,7 +42,7 @@ function MyVacations() {
             Add a Vacation
           </Button>
         </Box>
-        <ul>{renderedVacationLinks}</ul>
+        {vacations && <ul>{renderedVacationLinks}</ul>}
       </Paper>
     </Box>
   );

@@ -76,6 +76,9 @@ function NavBar() {
             <Box
               sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
             >
+              <Button color="secondary" href="/">
+                Home
+              </Button>
               <Button color="secondary" href="/login">
                 Login
               </Button>

@@ -10,7 +10,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Input,
 } from "@mui/material";
 
 function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
@@ -22,7 +21,7 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
   const [showNewLocationInput, setShowNewLocationInput] = useState(false);
   const [selectedLocationId, setSelectedLocationId] = useState("");
   const [errors, setErrors] = useState([]);
-  console.log("Vacations", vacations);
+
   const allLocations = [];
 
   vacations &&
