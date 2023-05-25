@@ -57,7 +57,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/vacations" element={<MyVacations />} />
+            <Route path="/myVacations" element={<MyVacations />} />
             <Route path="/vacations/:id" element={<VacationCard />} />
             <Route path="/add-vacation" element={<AddVacationForm />} />
             <Route path="/edit-vacation/:id" element={<EditVacationForm />} />

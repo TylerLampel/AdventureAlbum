@@ -43,7 +43,7 @@ function AddVacationForm() {
           setTitle("");
           setDepDate(new Date());
           setRetDate(new Date());
-          navigate("/vacations"); // Redirect to the vacations page
+          navigate("/myVacations"); // Redirect to the vacations page
         } else {
           // If there are errors, update the error state
           setError(data.errors);
