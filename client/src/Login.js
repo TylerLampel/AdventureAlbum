@@ -29,15 +29,18 @@ function Login() {
       .then((res) => res.json())
       .then((user) => {
         if (!user.errors) {
+          // If the login is successful, store the user in the context and navigate to the home page
           login(user);
           navigate("/");
         } else {
+          // If there are login errors, reset the form fields and display the error message
           setUsername("");
           setPassword("");
           setError(user.errors);
         }
       });
   }
+
   return (
     <Grid
       container
@@ -88,11 +91,12 @@ function Login() {
           </Box>
         </Paper>
       </Grid>
+      {/* Display the error message if it exists */}
       <ul>
         {error && (
-          <p severity="error" onClose={() => setError(!error)}>
+          <Typography variant="body1" color="error">
             {error}
-          </p>
+          </Typography>
         )}
       </ul>
     </Grid>

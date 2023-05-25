@@ -24,18 +24,22 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
 
   const allLocations = [];
 
+  // Extract all locations from vacations and store them in the `allLocations` array
   vacations &&
     vacations.map((vacation) =>
       vacation.locations.map((location) => allLocations.push(location))
     );
 
+  // Handle changes in the adventure title input field
   function handleTitleChange(e) {
     setTitle(e.target.value);
   }
 
+  // Handle form submission for creating an adventure
   function handleSubmit(e) {
     e.preventDefault();
 
+    // Create a FormData object and append form data
     const formData = new FormData();
     formData.append("adventure[title]", title);
     formData.append("adventure[location_id]", selectedLocationId);
@@ -45,6 +49,7 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
       formData.append("adventure[images][]", images[i]);
     }
 
+    // Make a POST request to create the adventure
     fetch(`/vacations/${id}/adventures`, {
       method: "POST",
       body: formData,
@@ -62,9 +67,11 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
       });
   }
 
+  // Handle form submission for creating a new location
   function handleLocationSubmit(e) {
     e.preventDefault();
 
+    // Make a POST request to create a new location
     fetch("/locations", {
       method: "POST",
       headers: {
@@ -85,20 +92,24 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
       });
   }
 
+  // Handle changes in the selected images
   function handleImageChange(e) {
     setImages(e.target.files);
   }
 
+  // Handle changes in the new location name input field
   function handleLocationNameChange(e) {
     setLocationName(e.target.value);
   }
 
+  // Handle changes in the selected location dropdown
   function handleLocationSelectChange(e) {
     setSelectedLocationId(e.target.value);
   }
 
   const uniqueLocations = [];
 
+  // Render location options for the select dropdown
   const renderedLocationOptions = allLocations.map((location, index) => {
     if (!uniqueLocations.includes(location.name)) {
       uniqueLocations.push(location.name);
@@ -112,6 +123,7 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
     }
   });
 
+  // Render either the form for creating a new location or the location select dropdown
   const renderedLocationInput = showNewLocationInput ? (
     <form onSubmit={handleLocationSubmit}>
       <TextField
@@ -145,12 +157,13 @@ function CreateAdventureForm({ addAdventure, addLocation, setShowForm }) {
     </Box>
   );
 
+  // Render the create adventure form if the user is logged in, otherwise display a message to log in or sign up
   if (loggedIn) {
     return (
       <Box>
         <Typography variant="body1">
-          Select location of adventure from the drop-down of locations, or
-          create a new one!
+          Select the location of the adventure from the dropdown of locations,
+          or create a new one!
         </Typography>
         <Button
           type="button"

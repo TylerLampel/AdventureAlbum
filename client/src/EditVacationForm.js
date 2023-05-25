@@ -28,6 +28,7 @@ function EditVacationForm() {
 
   useEffect(() => {
     if (vacation) {
+      // Populate the form fields with the vacation data
       setTitle(vacation.title);
       setDepDate(new Date(vacation.departure_date));
       setRetDate(new Date(vacation.return_date));
@@ -37,6 +38,7 @@ function EditVacationForm() {
   function editVacation(editedVacation) {
     const updatedVacations = vacations.map((vac) => {
       if (vac.id === editedVacation.id) {
+        // Replace the edited vacation with the updated one
         return editedVacation;
       }
       return vac;
@@ -60,10 +62,12 @@ function EditVacationForm() {
     }).then((res) => {
       if (res.ok) {
         return res.json().then((data) => {
+          // Call the editVacation function with the updated vacation data
           editVacation(data);
         });
       } else {
         return res.json().then((data) => {
+          // Set the error message if the request fails
           setError(data.errors);
         });
       }

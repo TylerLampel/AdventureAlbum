@@ -13,8 +13,10 @@ import {
 function MyLocations() {
   const { loggedIn, vacations } = useContext(UserContext);
 
+  // Object to store unique locations and their associated vacations
   const uniqueLocations = {};
 
+  // Iterate through vacations and locations to populate the uniqueLocations object
   vacations &&
     vacations.forEach((vacation) => {
       vacation.locations.forEach((location) => {
@@ -31,6 +33,7 @@ function MyLocations() {
       });
     });
 
+  // Render the locations and their associated vacations
   const renderedLocations = Object.values(uniqueLocations).map(
     (location, index) => (
       <Box key={index} sx={{ marginBottom: "16px" }}>
@@ -57,6 +60,7 @@ function MyLocations() {
     )
   );
 
+  // Render the component based on user login status
   if (loggedIn) {
     return (
       <Box sx={{ padding: "16px" }}>

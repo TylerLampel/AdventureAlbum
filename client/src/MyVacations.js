@@ -1,51 +1,78 @@
 import { useContext } from "react";
 import { UserContext } from "./context/User";
 import { Link } from "react-router-dom";
-import { Box, Paper, Button, Typography } from "@mui/material";
+import {
+  Typography,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@mui/material";
 
-function MyVacations() {
+function MyLocations() {
   const { loggedIn, vacations } = useContext(UserContext);
 
-  const renderedVacationLinks =
-    vacations && vacations.length === 0 ? (
-      <li>Please add a vacation</li>
-    ) : (
-      vacations.map((vacation) => {
-        return (
-          <li key={vacation.id}>
-            <Link to={`/vacations/${vacation.id}`}>{vacation.title}</Link>
-          </li>
-        );
-      })
-    );
+  // Object to store unique locations and their associated vacations
+  const uniqueLocations = {};
 
-  if (!loggedIn) {
-    return <Typography variant="h4">Please Log In or Sign Up</Typography>;
-  }
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "50vh",
-        gap: "20px",
-      }}
-    >
-      <Paper elevation={3} sx={{ padding: "20px" }}>
-        <Typography variant="h4" align="center" mb={3}>
-          My Vacations
-        </Typography>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button component={Link} to="/add-vacation" variant="contained">
-            Add a Vacation
-          </Button>
-        </Box>
-        {vacations && <ul>{renderedVacationLinks}</ul>}
-      </Paper>
-    </Box>
+  // Iterate through vacations and locations to populate the uniqueLocations object
+  vacations &&
+    vacations.forEach((vacation) => {
+      vacation.locations.forEach((location) => {
+        const locationId = location.id;
+        if (!uniqueLocations[locationId]) {
+          uniqueLocations[locationId] = {
+            name: location.name,
+            vacations: [],
+          };
+        }
+        if (!uniqueLocations[locationId].vacations.includes(vacation.id)) {
+          uniqueLocations[locationId].vacations.push(vacation.id);
+        }
+      });
+    });
+
+  // Render the locations and their associated vacations
+  const renderedLocations = Object.values(uniqueLocations).map(
+    (location, index) => (
+      <Box key={index} sx={{ marginBottom: "16px" }}>
+        <Typography variant="h4">{location.name}</Typography>
+        <Typography variant="h5">Vacations:</Typography>
+        <List>
+          {location.vacations.map((vacationId) => {
+            const vacation = vacations.find((v) => v.id === vacationId);
+            if (vacation) {
+              return (
+                <ListItem key={vacation.id} disablePadding>
+                  <ListItemText>
+                    <Link to={`/vacations/${vacation.id}`}>
+                      {vacation.title}
+                    </Link>
+                  </ListItemText>
+                </ListItem>
+              );
+            }
+            return null;
+          })}
+        </List>
+      </Box>
+    )
   );
+
+  // Render the component based on user login status
+  if (loggedIn) {
+    return (
+      <Box sx={{ padding: "16px" }}>
+        <Paper elevation={3} sx={{ padding: "16px" }}>
+          <Typography variant="h3">My Locations</Typography>
+          {renderedLocations}
+        </Paper>
+      </Box>
+    );
+  } else {
+    return <Typography variant="h3">Please Log In or Sign Up</Typography>;
+  }
 }
 
-export default MyVacations;
+export default MyLocations;

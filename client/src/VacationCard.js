@@ -15,6 +15,7 @@ function VacationCard() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch the current vacation based on the id from the URL params
     const currentVacation = vacations.find((v) => v.id === parseInt(id));
     setVacation(currentVacation);
   }, [id, vacations]);
@@ -24,10 +25,12 @@ function VacationCard() {
   }
 
   function addAdventure(newAdventure) {
+    // Add a new adventure to the current vacation
     const updatedVacation = {
       ...vacation,
       adventures: [...vacation.adventures, newAdventure],
     };
+    // Update the vacations list by replacing the current vacation with the updated one
     const filteredVacations = vacations.filter((v) => v.id !== vacation.id);
     const newVacations = [...filteredVacations, updatedVacation];
     setVacation(updatedVacation);
@@ -35,34 +38,46 @@ function VacationCard() {
   }
 
   function addLocation(newLocation) {
+    // Add a new location to the current vacation
     const updatedVacation = {
       ...vacation,
       locations: [...vacation.locations, newLocation],
     };
+    // Update the vacations list by replacing the current vacation with the updated one
     const filteredVacations = vacations.filter((v) => v.id !== vacation.id);
     const newVacations = [...filteredVacations, updatedVacation];
     setVacations(newVacations);
   }
 
   function deleteVacation() {
+    // Delete the current vacation from the vacations list
     const filteredVacations = vacations.filter((v) => v.id !== vacation.id);
     setVacations(filteredVacations);
   }
 
   function handleDeleteVacationClick() {
+    // Handle the delete vacation button click
     fetch(`/vacations/${id}`, {
       method: "DELETE",
-    }).then((res) => {
-      if (res.ok) {
-        deleteVacation(id);
-        navigate("/vacations");
-      } else {
-        setErrorMessage("vacation does not exist");
-      }
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          // If the vacation was successfully deleted, update the vacations list and navigate to the vacations page
+          deleteVacation(id);
+          navigate("/vacations");
+        } else {
+          // If there was an error deleting the vacation, set an error message
+          setErrorMessage("Vacation does not exist");
+        }
+      })
+      .catch((error) => {
+        // If there was an error with the network request, set an error message
+        setErrorMessage("Error occurred while deleting the vacation");
+      });
   }
 
   if (errorMessage) {
+    // Display an alert if there is an error message
     alert(errorMessage);
   }
 
@@ -78,6 +93,7 @@ function VacationCard() {
     >
       <Paper sx={{ padding: "20px", marginBottom: "20px" }}>
         <Typography variant="h4">{vacation.title}</Typography>
+        {/* Delete vacation button */}
         <IconButton
           onClick={handleDeleteVacationClick}
           color="error"
@@ -85,6 +101,7 @@ function VacationCard() {
         >
           <Delete />
         </IconButton>
+        {/* Edit vacation button */}
         <IconButton
           onClick={() => navigate(`/edit-vacation/${vacation.id}`)}
           color="primary"
@@ -98,6 +115,7 @@ function VacationCard() {
       <Paper sx={{ padding: "20px" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography variant="h6">Adventures</Typography>
+          {/* Toggle create adventure form button */}
           <IconButton
             onClick={() => setShowForm(!showForm)}
             color={showForm ? "error" : "primary"}
@@ -106,6 +124,7 @@ function VacationCard() {
             {showForm ? <Cancel /> : <Add />}
           </IconButton>
         </Box>
+        {/* Create adventure form */}
         {showForm && (
           <CreateAdventureForm
             addAdventure={addAdventure}
@@ -113,6 +132,7 @@ function VacationCard() {
             setShowForm={setShowForm}
           />
         )}
+        {/* List of adventures */}
         <AdventureList
           adventures={vacation.adventures}
           addAdventure={addAdventure}
