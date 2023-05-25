@@ -1,7 +1,7 @@
 class Vacation < ApplicationRecord
   belongs_to :user
   has_many :adventures, dependent: :destroy
-  has_many :locations, through: :adventures
+  has_many :locations, through: :adventures, dependent: :destroy
 
   validates :title, :departure_date, :return_date, presence: true 
   validates :title, :departure_date, :return_date, uniqueness: {scope: :user_id}

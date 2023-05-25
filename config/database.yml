@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: AdventureAlbum_development
+  database: adventure_album_db
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
