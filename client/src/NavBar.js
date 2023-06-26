@@ -34,7 +34,7 @@ function NavBar() {
               <Button color="secondary" href="/">
                 Home
               </Button>
-              <Button color="secondary" href="/vacations">
+              <Button color="secondary" href="/my-vacations">
                 My Vacations
               </Button>
               <Button color="secondary" href="/add-vacation">
